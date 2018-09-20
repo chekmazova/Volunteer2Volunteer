@@ -1,0 +1,19 @@
+#tells the web server to follow symbolic links while looking for a file. e.g. /system/files/images/image.png then show him /pictures/image.png."
+#IMG SRC="/system/files/images/image.png" 
+Options +FollowSymLinks 
+
+Options -Indexes 
+
+DirectoryIndex index.php 
+
+#allows you to rewrite URL requests that come into your server 
+RewriteEngine on 
+
+#allows you make the following are public to access 
+ 
+RewriteCond $1 !^(index\.php|assets|images|css|js|install|robots\.txt|favicon\.ico)
+# For all files not found in the file system or directory is not exist, reroute the request to the
+# "index.php" front controller, keeping the query string intact
+RewriteCond %{REQUEST_FILENAME} !-f 
+RewriteCond %{REQUEST_FILENAME} !-d 
+RewriteRule ^(.*)$ index.php?/$1 [L,QSA]
